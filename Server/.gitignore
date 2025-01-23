@@ -1,0 +1,20 @@
+# Ignore node_modules
+node_modules/
+
+# Ignore build folders for server (if using something like Babel or Webpack)
+/dist/
+/build/
+
+# Ignore environment files specific to the server
+.env
+
+# Ignore log files
+*.log
+
+# Ignore IDE/editor files (optional)
+.idea/
+.vscode/
+
+# Ignore OS-specific files
+.DS_Store
+Thumbs.db
