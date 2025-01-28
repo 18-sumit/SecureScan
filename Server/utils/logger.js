@@ -7,7 +7,7 @@ import path from "path";
 const logDir = "logs"; // Logs directory
 if (!fs.existsSync(logDir)) {
     fs.mkdirSync(logDir);
-}
+}   
 
 const logger = createLogger({
     level: "info",
