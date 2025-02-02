@@ -8,7 +8,7 @@ dotenv.config({
 try {
     await connectDB();  // Wait for the DB connection to succeed
     app.on("error", (error) => {
-        console.log("ERRR: ", error);
+        console.log("ERROR: ", error);
         throw error;
     });
     app.listen(process.env.PORT || 8000, () => {
