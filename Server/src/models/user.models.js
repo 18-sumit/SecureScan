@@ -44,14 +44,20 @@ const UserSchema = new mongoose.Schema(
             type: Number,
             default: 0, // helps to track brute force attack
         },
-        //lockUntill : {
-        // type: Date
-        // }
+        lockUntill: {
+            type: Date
+        },
         lastLogin: {
             type: Date // Track when the user last logged in
         },
         resetPasswordToken: String,
-        restePasswordExpires: Date // Expiry time for password reset token
+        restePasswordExpires: Date, // Expiry time for password reset token
+        preferences: {
+            notifications: {
+                type: Boolean,
+                default: true
+            }
+        }
     },
     {
         timestamps: true
@@ -79,6 +85,11 @@ UserSchema.methods.isPasswordCorrect = async function (password) {
     return await bcrypt.compare(password, this.password)
 }
 
+
+// method to check if account is locked due to failed logins :
+UserSchema.methods.isLocked = function () {
+    return this.lockUntill && this.lockUntill > Date.now();
+}
 
 
 export const User = mongoose.models.User || mongoose.model("User", UserSchema)
