@@ -10,7 +10,6 @@ if (!fs.existsSync(logDir)) {
         fs.mkdirSync(logDir);
     } catch (err) {
         console.error("Error creating log directory:", err);
-        // Handle the error appropriately
     }
 }
 
