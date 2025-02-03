@@ -13,7 +13,7 @@ Additionally, we plan to build a **browser extension** for easier access to thes
 ## 🚀 Features & Implementation Plan
 
 ### ✅ Features Completed So Far
-- **User Model (Industry-Level)**: Secure schema with encryption, failed login tracking, and session management.
+- **User Model**: Secure schema with encryption, failed login tracking, and session management.
 - **Database Connection**: MongoDB connected successfully.
 - **Logging System**: Winston & Morgan configured for request logging.
 - **Error Handling Utilities**: Centralized error-handling middleware and response wrappers.
