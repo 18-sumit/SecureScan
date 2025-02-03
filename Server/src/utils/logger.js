@@ -6,13 +6,19 @@ import path from "path";
 
 const logDir = "logs"; // Logs directory
 if (!fs.existsSync(logDir)) {
-    fs.mkdirSync(logDir);
-}   
+    try {
+        fs.mkdirSync(logDir);
+    } catch (err) {
+        console.error("Error creating log directory:", err);
+        // Handle the error appropriately
+    }
+}
+
 
 const logger = createLogger({
     level: "info",
     format: format.combine(format.timestamp(),
-            format.json()),
+        format.json()),
 
     transports: [
         new transports.Console({
