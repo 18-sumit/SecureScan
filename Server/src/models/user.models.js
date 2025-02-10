@@ -20,7 +20,7 @@ const UserSchema = new mongoose.Schema(
         password: {
             type: String,
             required: () => {
-                return !this.googleId; // If Google OAuth is used, password is not required
+                return !this.clerkId; // If clerk authentication is used, password is not required
             },
             select: false, //  prevent password from being fetched in queries
             validate: {
@@ -31,10 +31,10 @@ const UserSchema = new mongoose.Schema(
                     "Password must be at least 8 characters long and contain at least one letter and one number.",
             },
         },
-        googleId: {
+        clerkId: {
             type: String,
             unique: true,
-            sparse: true // Allows either email-based or Google login
+            sparse: true // Allows either email-based or clerk login
         },
         isVerified: {
             type: Boolean,
