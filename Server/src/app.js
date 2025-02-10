@@ -3,9 +3,28 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 import logger from "../src/utils/logger.js";
 import morgan from "morgan";
+import helmet from "helmet";
 
 const app = express();
 
+
+// helmet.js to set security-related HTTP headers
+app.use(helmet());
+
+
+// custom CSP - content security policy
+app.use(
+    helmet.contentSecurityPolicy({
+        directives: {
+            // defaultSrc: [" 'self'"], // allow only-same origin resources
+            // scriptSrc: ["'self'", "'unsafe-inline'"], // allow inline scripts
+            objectSrc : ["'none'"], // disable object embeds 
+            upgradeInsecureRequests : [] // upgrades HTTP req  to => HTTPS
+        }
+    })
+);
+
+app.use(helmet.xssFilter()); // prevent XSS attacks by enabling XSS filter in browser.
 
 
 
