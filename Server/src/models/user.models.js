@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
-import bcrypt from 'bcrypt'
+import bcrypt from 'bcrypt';
+import jwt from "jsonwebtoken";
 
 const UserSchema = new mongoose.Schema(
     {
@@ -91,5 +92,35 @@ UserSchema.methods.isLocked = function () {
     return this.lockUntill && this.lockUntill > Date.now();
 }
 
+
+// short lived tokens
+
+UserSchema.methods.generateAccessToken = async function () {
+    return jwt.sign(
+        {
+            _id: this._id,
+            name: this.name,
+            email: this.email
+        },
+        process.env.ACCESS_TOKEN_SECRET,
+        {
+            expiresIn: process.env.ACCESS_TOKEN_EXPIRY
+        }
+    )
+}
+
+// long lived tokens
+
+UserSchema.methods.generateRefreshToken = async function () {
+    jwt.sign(
+        {
+            _id: this._id
+        },
+        process.env.REFRESH_TOKEN_SECRET,
+        {
+            expiresIn: process.env.REFRESH_TOKEN_EXPIRY
+        }
+    )
+}
 
 export const User = mongoose.models.User || mongoose.model("User", UserSchema)
