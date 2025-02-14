@@ -1,7 +1,7 @@
 import { asyncHandler } from "../utils/asyncHandler.utils.js"
 import { ApiError } from "../utils/ApiError.utils.js";
 import { ApiResponse } from "../utils/ApiResponse.utils.js";
-import logger from "../utils/logger.js";
+import logger from "../utils/logger.js"
 import { User } from "../models/user.models.js";
 import jwt from "jsonwebtoken";
 import mongoose from "mongoose";
@@ -31,7 +31,7 @@ const registerUser = asyncHandler(async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array() });
 
-    logger.info(req.body);
+    // logger.info(req.body);
     const { name, email, password } = req.body;
 
     const existedUser = await User.findOne({ email })
@@ -93,7 +93,7 @@ const loginUser = asyncHandler(async (req, res) => {
         )
     }
 
-    const isPasswordValid = await user.isPasswordCorrect(password);
+    const isPasswordValid = await user.isPasswordCorrect(password).select("+password");
 
     if (!isPasswordValid) {
         throw new ApiError(
