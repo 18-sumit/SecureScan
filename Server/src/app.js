@@ -18,8 +18,8 @@ app.use(
         directives: {
             // defaultSrc: [" 'self'"], // allow only-same origin resources
             // scriptSrc: ["'self'", "'unsafe-inline'"], // allow inline scripts
-            objectSrc : ["'none'"], // disable object embeds 
-            upgradeInsecureRequests : [] // upgrades HTTP req  to => HTTPS
+            objectSrc: ["'none'"], // disable object embeds 
+            upgradeInsecureRequests: [] // upgrades HTTP req  to => HTTPS
         }
     })
 );
@@ -66,6 +66,10 @@ app.use(
         },
     })
 );
+
+
+import { userRouter } from "./routes/user.routes.js";
+app.use("/api/v1/user", userRouter);
 
 
 
