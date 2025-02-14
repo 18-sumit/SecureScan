@@ -20,7 +20,7 @@ const UserSchema = new mongoose.Schema(
         },
         password: {
             type: String,
-            required: () => {
+            required: function () {
                 return !this.clerkId; // If clerk authentication is used, password is not required
             },
             select: false, //  prevent password from being fetched in queries
@@ -66,7 +66,6 @@ const UserSchema = new mongoose.Schema(
 );
 
 // Indexing for faster search queries
-UserSchema.index({ email: 1 });
 UserSchema.index({ googleId: 1 }, { unique: true, sparse: true });
 
 
@@ -112,7 +111,7 @@ UserSchema.methods.generateAccessToken = async function () {
 // long lived tokens
 
 UserSchema.methods.generateRefreshToken = async function () {
-    jwt.sign(
+    return jwt.sign(
         {
             _id: this._id
         },
