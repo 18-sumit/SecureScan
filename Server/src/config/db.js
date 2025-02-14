@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import { DB_NAME } from "../utils/constants.js";
 import dotenv from "dotenv"
-import logger from "../logger.js";
+import logger from "../utils/logger.js";
 
 // Load environment variables from .env file
 dotenv.config()
