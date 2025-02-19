@@ -1,5 +1,7 @@
 # Project Instructions: Website Security Analysis & Uptime Monitoring
 
+## POSTMAN COLLECTION LINK:
+https://app.getpostman.com/join-team?invite_code=6c0cb6a6318948b8e61c1611983f51dce0ff706b73055ff9afd99cebaa60643b
 ## 📌 Project Overview
 This project is a web-based platform that provides two major features:
 
