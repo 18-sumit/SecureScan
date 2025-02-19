@@ -84,7 +84,7 @@ const loginUser = asyncHandler(async (req, res) => {
         )
     }
 
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ email }).select("+password");
 
     if (!user) {
         throw new ApiError(
@@ -93,7 +93,7 @@ const loginUser = asyncHandler(async (req, res) => {
         )
     }
 
-    const isPasswordValid = await user.isPasswordCorrect(password).select("+password");
+    const isPasswordValid = await user.isPasswordCorrect(password);
 
     if (!isPasswordValid) {
         throw new ApiError(
