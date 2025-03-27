@@ -6,6 +6,7 @@ import { User } from "../models/user.models.js";
 import jwt from "jsonwebtoken";
 import mongoose from "mongoose";
 import { validationResult } from "express-validator";
+import { http } from "winston";
 
 const generateAccessRefreshToken = async (userId) => {
     try {
@@ -124,8 +125,46 @@ const loginUser = asyncHandler(async (req, res) => {
         )
 });
 
+const logoutUser = asyncHandler(async (req, res) => {
+
+    if (!req.user) {
+        throw new ApiError(400, "User is not authenticated");
+    }
+
+    //clear refreshToken from db to logout user
+    await User.findOneAndUpdate(
+        req.user._id,
+        {
+            $unset: {
+                refreshToken: 1
+            }
+        },
+        {
+            new: true
+        }
+    )
+
+    const options = {
+        httpOnly: true,
+        secure: true
+    }
+
+    return res
+        .status(200)
+        .clearCookie("accessToken", options)
+        .clearCookie("refreshToken", options)
+        .json(
+            new ApiResponse(
+                200,
+                {},
+                "User logged Out successfully"
+            )
+        )
+});
+
 
 export {
     registerUser,
-    loginUser
+    loginUser,
+    logoutUser
 }
