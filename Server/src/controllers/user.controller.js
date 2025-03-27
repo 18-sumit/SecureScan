@@ -6,13 +6,17 @@ import { User } from "../models/user.models.js";
 import jwt from "jsonwebtoken";
 import mongoose from "mongoose";
 import { validationResult } from "express-validator";
-import { http } from "winston";
+// import { http } from "winston";
 
-const generateAccessRefreshToken = async (userId) => {
+const generateAccessAndRefreshToken = async (userId) => {
     try {
         const user = await User.findById(userId);
-        const accessToken = user.generateAccessToken()
-        const refreshToken = user.generateRefreshToken()
+
+        if (!user) {
+            throw new ApiError(404, "User not found")
+        }
+        const accessToken = await user.generateAccessToken()
+        const refreshToken = await user.generateRefreshToken()
 
         user.refreshToken = refreshToken;
         await user.save({ validateBeforeSave: false })
@@ -86,6 +90,8 @@ const loginUser = asyncHandler(async (req, res) => {
     }
 
     const user = await User.findOne({ email }).select("+password");
+    // do add +password as it is false in usermodel .it prevents password to being exposed to every query 
+    // even if it is not needed.
 
     if (!user) {
         throw new ApiError(
@@ -103,7 +109,9 @@ const loginUser = asyncHandler(async (req, res) => {
         )
     }
 
-    const { accessToken, refreshToken } = generateAccessRefreshToken(user._id);
+    const { accessToken, refreshToken } = await generateAccessAndRefreshToken(user._id);
+    // console.log("accessToken: ", accessToken, "RefreshToken : ", refreshToken);
+
 
     const loggedInUser = await User.findById(user._id).select("-password -refreshToken")
 
