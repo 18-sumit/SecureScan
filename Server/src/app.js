@@ -4,10 +4,11 @@ import cookieParser from "cookie-parser";
 import logger from "../src/utils/logger.js";
 import morgan from "morgan";
 import helmet from "helmet";
+import { rateLimiter } from "./middleware/rateLimiter.middleware.js";
 
 const app = express();
 
-
+app.use("/api", rateLimiter);
 // helmet.js to set security-related HTTP headers
 app.use(helmet());
 
