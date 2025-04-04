@@ -4,11 +4,13 @@ import cookieParser from "cookie-parser";
 import logger from "../src/utils/logger.js";
 import morgan from "morgan";
 import helmet from "helmet";
-import { rateLimiter } from "./middleware/rateLimiter.middleware.js";
+// import { rateLimiter } from "./middleware/rateLimiter.middleware.js";
+
 
 const app = express();
 
-app.use("/api", rateLimiter);
+// app.use("/api", rateLimiter);
+
 // helmet.js to set security-related HTTP headers
 app.use(helmet());
 
@@ -92,8 +94,14 @@ app.use(
 
 //ROUTES:
 import { userRouter } from "./routes/user.routes.js";
-app.use("/api/v1/user", userRouter);
+import { securityRouter } from "./routes/security.routes.js";
+import { analyzeRouter } from "./routes/website.routes.js";
 
+
+
+app.use("/api/v1/user", userRouter);
+app.use("/api/v1/security", securityRouter);
+app.use("/api/v1/website", analyzeRouter)
 
 
 
